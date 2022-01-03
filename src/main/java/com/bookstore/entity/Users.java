@@ -1,11 +1,14 @@
 package com.bookstore.entity;
 // Generated Jun 23, 2021, 3:22:09 PM by Hibernate Tools 5.2.12.Final
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -13,6 +16,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "users", catalog = "bookstoredb")
+@NamedQueries({
+	@NamedQuery(name = "Users.listAll", query = "SELECT u from Users u"),
+	@NamedQuery(name = "Users.count", query = "SELECT Count(*) from Users u")
+})
 public class Users implements java.io.Serializable {
 
 	private Integer userId;

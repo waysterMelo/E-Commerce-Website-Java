@@ -1,11 +1,13 @@
 package com.bookstore.dao;
 
+import javax.persistence.EntityManager;
+
 import com.bookstore.entity.Book;
 
 public class BookDao extends JpaDao<Book> implements GenericDao<Book>{
 
-	public BookDao() {
-		super();
+	public BookDao(EntityManager entityManager) {
+		super(entityManager);
 	}
 	
 	@Override
@@ -21,7 +23,7 @@ public class BookDao extends JpaDao<Book> implements GenericDao<Book>{
 	@Override
 	public void delete(Object id) {
 		
-		super.delete(id);
+		super.delete(Book.class, id);
 	}
 	
 	@Override

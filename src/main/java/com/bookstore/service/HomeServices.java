@@ -1,5 +1,6 @@
 package com.bookstore.service;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,12 +16,13 @@ public class HomeServices extends HttpServlet{
 	private HttpServletResponse response;
 	BookDao bookdao ;
 	CategoryDao categoryDao;
+	EntityManager entityManager;
 	
 	public HomeServices(HttpServletRequest request, HttpServletResponse response) {
 		this.request = request;
 		this.response = response;
-		bookdao = new BookDao();
-		categoryDao = new CategoryDao();
+		bookdao = new BookDao(entityManager);
+		categoryDao = new CategoryDao(entityManager);
 	}
 	
 

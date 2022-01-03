@@ -2,13 +2,16 @@ package com.bookstore.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import com.bookstore.entity.Category;
 
 public class CategoryDao extends JpaDao<Category> implements GenericDao<Category>{
 	
 	
-	public CategoryDao() {
+	public CategoryDao(EntityManager entityManager) {
 		// TODO Auto-generated constructor stub
+		super(entityManager);
 	}
 	
 	@Override
@@ -31,7 +34,8 @@ public class CategoryDao extends JpaDao<Category> implements GenericDao<Category
 	@Override
 	public void delete(Object id) {
 		// TODO Auto-generated method stub
-		super.delete(id);
+		super.delete(Category.class, id);
+		
 	}
 	
 	@Override

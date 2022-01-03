@@ -3,6 +3,7 @@ package com.bookstore.servlets;
 import java.io.IOException;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,15 +19,16 @@ import com.bookstore.entity.Category;
 public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	EntityManager entityManager;
 	
     public Home() {
-      
+     
     }
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		CategoryDao categoryDao = new CategoryDao();
+		CategoryDao categoryDao = new CategoryDao(entityManager);
 		List<Category> name_category =  categoryDao.listAll();
 		request.setAttribute("name_category", name_category); 
 		

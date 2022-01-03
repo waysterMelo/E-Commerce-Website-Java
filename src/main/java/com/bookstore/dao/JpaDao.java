@@ -9,21 +9,17 @@ import javax.persistence.Query;
 
 import com.bookstore.entity.Category;
 
-public class JpaDao<E> implements GenericDao<E>{
+public class JpaDao<E> {
 	
-	private static EntityManagerFactory entityManagerFactory;
+	protected EntityManager entityManager;
 	
-	static {
-		entityManagerFactory = Persistence.createEntityManagerFactory("BookStore");
-	}
-	
-	public JpaDao() {
-		
+	public JpaDao(EntityManager entityManager) {
+		super();
+		this.entityManager = entityManager;
 	}
 
-	@Override
+
 	public E Create(E e) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.persist(e);
 		entityManager.flush();
@@ -32,42 +28,40 @@ public class JpaDao<E> implements GenericDao<E>{
 		return e;
 	}
 
-	@Override
 	public E update(E e) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.merge(e);
 		entityManager.getTransaction().commit();
 		return e;
 	}
 
-	@Override
+	
 	public E get(Object id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void delete(Object id) {
-		// TODO Auto-generated method stub
+	
+	public void delete(Class<E> type, Object id) {
+		entityManager.getTransaction().begin();
+		Object reference = entityManager.getReference(type, id);
+		entityManager.remove(reference);
+		entityManager.getTransaction().commit();
 		
 	}
 
-	@Override
+	
 	public List<E> listAll() {
-		
 		return null;
 	}
 
-	@Override
+	
 	public long count() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 	
 	public List<E> findWithNamedQuery(String queryName){
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		entityManager = entityManagerFactory.createEntityManager();
 		Query query = entityManager.createNamedQuery(queryName);
 		
 		@SuppressWarnings("unchecked")
@@ -77,5 +71,16 @@ public class JpaDao<E> implements GenericDao<E>{
 				
 	}
 	
+	public E find(Class<E> type, Object Id) {
+		E entity = entityManager.find(type, Id);
+		if (entity != null) {
+			entityManager.refresh(entity); 
+		}
+		return entity;
+	}
 	
+	public long count_with_named_query(String queryName) {
+		Query query = entityManager.createNamedQuery(queryName);
+		return (long) query.getSingleResult();
+	}
 }

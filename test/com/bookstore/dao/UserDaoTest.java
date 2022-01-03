@@ -3,6 +3,8 @@ package com.bookstore.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -24,47 +26,54 @@ public class UserDaoTest {
 		entityManagerFactory = Persistence.createEntityManagerFactory("BookStore");
 		entityManager = entityManagerFactory.createEntityManager();
 		
-		userDao = new UserDao();
+		userDao = new UserDao(entityManager);
 	}
 
+//	@Test
+//	public void test_get_users() {
+//		Integer id = 1;
+//		Users users = userDao.get(id);
+//		
+//		assertNull(users); 
+//		
+//	}
+	
+//	@Test
+//	public void delete_test() {
+//		Integer id = 3;
+//		userDao.delete(id); 
+//		
+//		Users users = userDao.get(id);
+//		
+//		assertNull(users); 
+//		
+//		
+//	}
+	
+//	@Test
+//	public void test_list_all() {
+//		List<Users> list = userDao.listAll();
+//		
+//		for (Users user : list) {
+//			System.out.println(user.getNome());
+//		}
+//		
+//		assertTrue(list.size() > 0);
+//	}
+
+	
 	@Test
-	public void testCreateUsers() {
-		Users user1 = new Users();
-		user1.setNome("Wayster");
-		user1.setEmail("waystermelo@gmail.com");
-		user1.setSenha("deus");
-		
-		UserDao dao = new UserDao();
-		dao.Create(user1);		
-		assertTrue(user1.getUserId() > 0);
+	public void test_count() {
+		long users = userDao.count();
+		assertEquals(1, users); 
 	}
 	
 	
-	
-	@Test
-	public void updateTest() {
-		Users users = new Users();
-		users.setUserId(1);
-		users.setNome("Wayster H cruz de melo");
-		users.setSenha("deus");
-		users.setEmail("waystermelo@gmail.com");
-		
-		users = userDao.update(users);
-		
-		String expected = "Wayster H cruz de melo";
-		String get = users.getNome();
-		
-		assertEquals(expected, get); 
-		
-		
-	}
-	
-	
-	
-	@AfterClass
-	public static void tearDownClass() {
-		entityManager.close(); 
-		entityManagerFactory.close();
-	}
+//	@AfterClass
+//	public static void tearDownClass() {
+//		entityManager.close(); 
+//		entityManagerFactory.close();
+//	
+//	}
 
 }

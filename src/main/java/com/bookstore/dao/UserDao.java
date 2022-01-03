@@ -1,45 +1,49 @@
 package com.bookstore.dao;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
 import com.bookstore.entity.Users;
 
 public class UserDao extends JpaDao<Users> implements GenericDao<Users>{
 
 	
-	public UserDao( ) {
-		
+	public UserDao(EntityManager entityManager) {
+		super(entityManager);
 	}
 	
 	@Override
 	public Users Create(Users e) {
-		// TODO Auto-generated method stub
 		return super.Create(e);
 	}
 	
 	@Override
 	public Users update(Users e) {
-		// TODO Auto-generated method stub
 		return super.update(e);
 	}
 	
 	@Override
 	public void delete(Object id) {
-		// TODO Auto-generated method stub
-		super.delete(id);
+		super.delete(Users.class, id); 
+		
 	}
 	
 	@Override
 	public long count() {
-		// TODO Auto-generated method stub
-		return super.count();
-	}
-	
+		return super.count_with_named_query("Users.count");
+	} 
+	 
 	@Override
 	public Users get(Object id) {
-		// TODO Auto-generated method stub
 		return super.get(id);
 	}
 	
-	
+	@Override
+	public List<Users> listAll() {
+		
+		return super.findWithNamedQuery("Users.listAll");
+	}
 	
 	
 	
